@@ -1,0 +1,184 @@
+/* ===== Hero Section with Background ===== */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* vertical center */
+  align-items: center;
+  /* horizontal center */
+  text-align: center;
+
+  background: url("https://images.unsplash.com/photo-1504711434969-e33886168f5c") no-repeat center center/cover;
+
+  position: relative;
+  perspective: 1000px;
+  padding: 40px 20px;
+}
+
+/* Dark overlay */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+/* ===== 3D Title ===== */
+.mm1 {
+  position: relative;
+  color: #ffffff;
+  font-size: 60px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  z-index: 1;
+  text-transform: uppercase;
+  transform-style: preserve-3d;
+
+  text-shadow:
+    1px 1px 0 #000,
+    2px 2px 0 #111,
+    3px 3px 0 #222,
+    4px 4px 0 #333,
+    5px 5px 0 #444,
+    6px 6px 10px rgba(0, 0, 0, 0.6);
+
+  animation:
+    fadeInUp 1.5s ease,
+    float3D 4s ease-in-out infinite,
+    glowPulse 2s ease-in-out infinite alternate;
+}
+
+/* ===== Description Container (CENTERED 🔥) ===== */
+.home-description {
+  position: relative;
+  z-index: 1;
+
+  max-width: 900px;
+  width: 100%;
+  margin: 30px auto 0 auto;
+  /* horizontal center with auto margins */
+
+  padding: 25px 30px;
+
+  color: #ffffff;
+  /* changed to white for better contrast on dark background */
+  font-size: 17px;
+  line-height: 1.8;
+
+  text-align: center;
+
+  /* Glass effect */
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+
+  animation: fadeInUp 2s ease;
+}
+
+/* Paragraph spacing */
+.home-description p {
+  margin-bottom: 15px;
+}
+
+/* Center list items */
+.home-description li {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Custom bullet */
+.home-description li::before {
+  content: "•";
+  color: #ff8c00;
+  margin-right: 8px;
+}
+
+/* Highlight bold text */
+.home-description strong {
+  color: #ffd700;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) rotateX(20deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+}
+
+@keyframes float3D {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) translateY(0);
+  }
+
+  50% {
+    transform: rotateX(5deg) rotateY(0deg) translateY(-10px);
+  }
+
+  100% {
+    transform: rotateX(0deg) rotateY(0deg) translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  from {
+    text-shadow:
+      1px 1px 0 #000,
+      2px 2px 0 #111,
+      3px 3px 0 #222,
+      4px 4px 0 #333,
+      5px 5px 0 #444,
+      0 0 10px rgba(255, 255, 255, 0.5);
+  }
+
+  to {
+    text-shadow:
+      1px 1px 0 #000,
+      2px 2px 0 #111,
+      3px 3px 0 #222,
+      4px 4px 0 #333,
+      5px 5px 0 #444,
+      0 0 25px rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* ===== Responsive Design ===== */
+
+/* Tablet */
+@media (max-width: 991px) {
+  .mm1 {
+    font-size: 40px;
+  }
+
+  .home-description {
+    font-size: 15px;
+    padding: 20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .mm1 {
+    font-size: 26px;
+    padding: 0 10px;
+  }
+
+  .home-description {
+    font-size: 14px;
+    padding: 15px;
+  }
+
+  .hero-section {
+    min-height: 100vh;
+  }
+}
