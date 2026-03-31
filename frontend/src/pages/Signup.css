@@ -1,0 +1,131 @@
+/* ===== Background with overlay ===== */
+.signup-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background:
+    linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)),
+    url("https://i.etsystatic.com/7942433/r/il/c53f7b/2794362434/il_1588xN.2794362434_nr2m.jpg") no-repeat center center/cover;
+
+  background-attachment: fixed;
+
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* ===== Form Card ===== */
+.signup-form {
+  background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+  padding: 35px;
+  border-radius: 15px;
+  width: 350px;
+  text-align: center;
+ 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  animation: slideUp 1s ease-in-out;
+}
+
+/* ===== Title ===== */
+.signup-form h2 {
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+/* ===== Inputs ===== */
+.signup-form input,
+.signup-form select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  transition: all 0.3s ease;
+}
+
+/* Focus effect */
+.signup-form input:focus,
+.signup-form select:focus {
+  border-color: #22c55e;
+  outline: none;
+  box-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+}
+
+/* ===== Button ===== */
+.signup-form button {
+  width: 100%;
+  padding: 12px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hover animation */
+.signup-form button:hover {
+  background: #16a34a;
+  transform: scale(1.05);
+}
+
+/* ===== Message ===== */
+.signup-form p {
+  margin-bottom: 10px;
+  color: red;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===== Responsive Design ===== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .signup-form {
+    width: 90%;
+    padding: 25px;
+  }
+
+  .signup-container {
+    background-attachment: scroll;
+    /* fix mobile lag */
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .signup-form {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .signup-form h2 {
+    font-size: 20px;
+  }
+}
