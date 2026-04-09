@@ -51,7 +51,7 @@ export default function Signup() {
       // redirect to login page
       setTimeout(() => {
         navigate("/");
-      }, 1500);
+      }, 10500);
 
     } catch (error) {
       setIsError(true);
@@ -107,7 +107,7 @@ export default function Signup() {
           <select name="role" value={formData.role} onChange={handleChange}>
             <option value="READER">Reader</option>
             <option value="WRITER">Writer</option>
-            <option value="EDITOR">Editor</option>
+            
           </select>
 
           {/* NIC field - only show for WRITER or EDITOR */}

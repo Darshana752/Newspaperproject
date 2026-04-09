@@ -27,6 +27,9 @@ export default function Navigationbar() {
             <Nav.Link as={NavLink} to="/Writingnews">
               Writing News
             </Nav.Link>
+            <Nav.Link as={NavLink} to="/Editingnews">
+              Editing News
+            </Nav.Link>
           </Nav>
 
           {/* Right Button */}

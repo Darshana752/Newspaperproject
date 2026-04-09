@@ -1,8 +1,5 @@
 package com.example.backend.service;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.example.backend.dto.LoginRequest;
 import com.example.backend.dto.RegisterRequest;
 import com.example.backend.model.Editor;
@@ -11,12 +8,14 @@ import com.example.backend.model.Writer;
 import com.example.backend.repository.EditorRepository;
 import com.example.backend.repository.ReaderRepository;
 import com.example.backend.repository.WriterRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+
   private final ReaderRepository readerRepo;
   private final EditorRepository editorRepo;
   private final WriterRepository writerRepo;
@@ -33,14 +32,6 @@ public class AuthService {
         reader.setPassword(encoded);
         readerRepo.save(reader);
       }
-      case "EDITOR" -> {
-        Editor editor = new Editor();
-        editor.setName(request.getName());
-        editor.setEmail(request.getEmail());
-        editor.setPassword(encoded);
-        editor.setNic(request.getNic());
-        editorRepo.save(editor);
-      }
       case "WRITER" -> {
         Writer writer = new Writer();
         writer.setName(request.getName());
@@ -48,6 +39,10 @@ public class AuthService {
         writer.setPassword(encoded);
         writer.setNic(request.getNic());
         writerRepo.save(writer);
+      }
+      case "EDITOR" -> {
+        // ❌ Editors cannot self-register
+        throw new RuntimeException("Editor accounts cannot be self-registered.");
       }
       default -> throw new RuntimeException("Invalid role: " + request.getRole());
     }
@@ -67,6 +62,10 @@ public class AuthService {
         yield "Login successful as READER";
       }
       case "EDITOR" -> {
+        // ✅ Only this specific email is allowed
+        if (!request.getEmail().equals("malithdarshana2000@gmail.com")) {
+          throw new RuntimeException("Access denied. Unauthorized editor.");
+        }
         Editor e = editorRepo.findByEmail(request.getEmail())
             .orElseThrow(() -> new RuntimeException("Editor not found"));
         if (!passwordEncoder.matches(rawPassword, e.getPassword()))

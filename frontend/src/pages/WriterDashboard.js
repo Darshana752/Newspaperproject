@@ -60,7 +60,7 @@ export default function WriterDashboard() {
           <div className="action-buttons">
             <button
               className="action-btn primary"
-              onClick={() => navigate("/write-news")}
+              onClick={() => navigate("/Writenewarticle")}
             >
               ✍️ Write New Article
             </button>

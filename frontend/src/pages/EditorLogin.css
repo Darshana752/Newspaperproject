@@ -1,0 +1,622 @@
+/* ============================================
+   EDITOR LOGIN PAGE
+============================================ */
+
+.editor-login-page {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #f4f6f9;
+}
+
+/* ============================================
+   ANIMATED BACKGROUND PARTICLES
+============================================ */
+
+.particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.08;
+  animation: drift linear infinite;
+}
+
+.particle-1 {
+  width: 80px;
+  height: 80px;
+  background: #1e8449;
+  top: 10%;
+  left: 5%;
+  animation-duration: 18s;
+  animation-delay: 0s;
+}
+
+.particle-2 {
+  width: 50px;
+  height: 50px;
+  background: #145a32;
+  top: 30%;
+  left: 20%;
+  animation-duration: 22s;
+  animation-delay: 2s;
+}
+
+.particle-3 {
+  width: 120px;
+  height: 120px;
+  background: #1e8449;
+  top: 60%;
+  left: 8%;
+  animation-duration: 26s;
+  animation-delay: 4s;
+}
+
+.particle-4 {
+  width: 40px;
+  height: 40px;
+  background: #a9dfbf;
+  top: 80%;
+  left: 35%;
+  animation-duration: 20s;
+  animation-delay: 1s;
+}
+
+.particle-5 {
+  width: 90px;
+  height: 90px;
+  background: #0b3d2e;
+  top: 15%;
+  left: 70%;
+  animation-duration: 24s;
+  animation-delay: 3s;
+}
+
+.particle-6 {
+  width: 60px;
+  height: 60px;
+  background: #1e8449;
+  top: 45%;
+  left: 85%;
+  animation-duration: 19s;
+  animation-delay: 5s;
+}
+
+.particle-7 {
+  width: 35px;
+  height: 35px;
+  background: #a9dfbf;
+  top: 70%;
+  left: 60%;
+  animation-duration: 21s;
+  animation-delay: 0s;
+}
+
+.particle-8 {
+  width: 100px;
+  height: 100px;
+  background: #145a32;
+  top: 90%;
+  left: 80%;
+  animation-duration: 28s;
+  animation-delay: 6s;
+}
+
+.particle-9 {
+  width: 45px;
+  height: 45px;
+  background: #1e8449;
+  top: 5%;
+  left: 45%;
+  animation-duration: 16s;
+  animation-delay: 2s;
+}
+
+.particle-10 {
+  width: 70px;
+  height: 70px;
+  background: #0b3d2e;
+  top: 50%;
+  left: 50%;
+  animation-duration: 23s;
+  animation-delay: 4s;
+}
+
+.particle-11 {
+  width: 55px;
+  height: 55px;
+  background: #a9dfbf;
+  top: 25%;
+  left: 90%;
+  animation-duration: 17s;
+  animation-delay: 1s;
+}
+
+.particle-12 {
+  width: 85px;
+  height: 85px;
+  background: #1e8449;
+  top: 75%;
+  left: 15%;
+  animation-duration: 25s;
+  animation-delay: 7s;
+}
+
+@keyframes drift {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.08;
+  }
+
+  50% {
+    transform: translateY(-40px) rotate(180deg);
+    opacity: 0.14;
+  }
+
+  100% {
+    transform: translateY(0px) rotate(360deg);
+    opacity: 0.08;
+  }
+}
+
+/* ============================================
+   LEFT PANEL
+============================================ */
+
+.editor-login-left {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(160deg, #0b3d2e 0%, #145a32 50%, #1e8449 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 48px;
+  color: white;
+}
+
+.editor-login-left-content {
+  max-width: 420px;
+  animation: slideInLeft 0.8s ease forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Badge */
+.editor-badge {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid rgba(169, 223, 191, 0.5);
+  animation: ringPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes ringPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+.badge-icon {
+  font-size: 52px;
+  animation: iconFloat 3s ease-in-out infinite;
+  display: block;
+}
+
+@keyframes iconFloat {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.left-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 14px;
+  color: #a9dfbf;
+  letter-spacing: 1.5px;
+}
+
+.left-subtitle {
+  font-size: 0.97rem;
+  color: #d5f5e3;
+  line-height: 1.75;
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+/* Feature List */
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(169, 223, 191, 0.2);
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 0.93rem;
+  color: #d5f5e3;
+  transition: background 0.3s ease, transform 0.2s ease;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.feature-item:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.feature-item:nth-child(2) {
+  animation-delay: 0.35s;
+}
+
+.feature-item:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.feature-item:nth-child(4) {
+  animation-delay: 0.65s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.feature-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(6px);
+}
+
+.feature-dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  border-radius: 50%;
+  background: #a9dfbf;
+  display: inline-block;
+}
+
+.left-footer-note {
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(169, 223, 191, 0.7);
+  border-top: 1px solid rgba(169, 223, 191, 0.2);
+  padding-top: 20px;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   RIGHT PANEL
+============================================ */
+
+.editor-login-right {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+}
+
+.editor-login-card {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(11, 61, 46, 0.15);
+  overflow: hidden;
+  animation: slideInRight 0.8s ease forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Green top accent bar */
+.card-accent {
+  height: 5px;
+  background: linear-gradient(90deg, #0b3d2e, #1e8449, #a9dfbf, #1e8449, #0b3d2e);
+  background-size: 200% 100%;
+  animation: accentSlide 3s linear infinite;
+}
+
+@keyframes accentSlide {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+.card-body {
+  padding: 44px 40px 36px;
+}
+
+/* Card Header */
+.card-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.lock-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+  animation: lockBounce 2s ease-in-out infinite;
+}
+
+@keyframes lockBounce {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.card-header h2 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0b3d2e;
+  margin-bottom: 6px;
+}
+
+.card-header p {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* Alert Messages */
+.alert-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 22px;
+  animation: alertPop 0.4s ease;
+}
+
+@keyframes alertPop {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.alert-success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.alert-error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.alert-icon {
+  font-size: 1.1rem;
+}
+
+/* ============================================
+   FORM FIELDS
+============================================ */
+
+.editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-group label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #374151;
+  letter-spacing: 0.4px;
+}
+
+.field-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  overflow: hidden;
+}
+
+.field-input-wrapper:focus-within {
+  border-color: #1e8449;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(30, 132, 73, 0.1);
+}
+
+.field-icon {
+  padding: 0 14px;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+
+.field-input-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 14px 12px 14px 0;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.field-input-wrapper input::placeholder {
+  color: #9ca3af;
+}
+
+/* Underline animation on focus */
+.field-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #0b3d2e, #1e8449);
+  transition: width 0.4s ease;
+  border-radius: 0 0 12px 12px;
+}
+
+.field-input-wrapper:focus-within .field-underline {
+  width: 100%;
+}
+
+/* Toggle password button */
+.toggle-password {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 14px;
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggle-password:hover {
+  transform: scale(1.2);
+}
+
+/* ============================================
+   SUBMIT BUTTON
+============================================ */
+
+.login-submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #0b3d2e 0%, #1e8449 100%);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  margin-top: 4px;
+}
+
+.login-submit-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: left 0.5s ease;
+}
+
+.login-submit-btn:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.login-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(11, 61, 46, 0.35);
+}
+
+.login-submit-btn:active:not(:disabled) {
+  transform: translateY(0px);
+}
+
+.login-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-inner {
+  display: flex;
+  align-items: center;
+}
