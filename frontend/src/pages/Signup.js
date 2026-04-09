@@ -12,9 +12,11 @@ export default function Signup() {
     email: "",
     password: "",
     role: "READER",
+    nic: "",
   });
 
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   // handle input change
   const handleChange = (e) => {
@@ -28,10 +30,23 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      await axios.post("http://localhost:8080/api/auth/register", formData);
+    // Build payload - only include nic if WRITER or EDITOR
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      role: formData.role,
+      nic: formData.role !== "READER" ? formData.nic : null,
+    };
 
-      setMessage("Signup successful!");
+    try {
+      const response = await axios.post(
+        "http://localhost:8090/api/auth/register",
+        payload
+      );
+
+      setIsError(false);
+      setMessage(response.data || "Signup successful!");
 
       // redirect to login page
       setTimeout(() => {
@@ -39,7 +54,12 @@ export default function Signup() {
       }, 1500);
 
     } catch (error) {
-      setMessage("Signup failed!");
+      setIsError(true);
+      if (error.response && error.response.data) {
+        setMessage(error.response.data);
+      } else {
+        setMessage("Signup failed! Please try again.");
+      }
     }
   };
 
@@ -51,7 +71,10 @@ export default function Signup() {
         <form className="signup-form" onSubmit={handleSubmit}>
           <h2>Sign Up</h2>
 
-          {message && <p>{message}</p>}
+          {/* Message display */}
+          {message && (
+            <p style={{ color: isError ? "red" : "green" }}>{message}</p>
+          )}
 
           <input
             type="text"
@@ -86,6 +109,18 @@ export default function Signup() {
             <option value="WRITER">Writer</option>
             <option value="EDITOR">Editor</option>
           </select>
+
+          {/* NIC field - only show for WRITER or EDITOR */}
+          {formData.role !== "READER" && (
+            <input
+              type="text"
+              name="nic"
+              placeholder="Enter NIC"
+              value={formData.nic}
+              onChange={handleChange}
+              required
+            />
+          )}
 
           <button type="submit">Register</button>
         </form>
