@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.LoginRequest;
+import com.example.backend.dto.LoginResponse;
 import com.example.backend.dto.RegisterRequest;
 import com.example.backend.model.Editor;
 import com.example.backend.model.Reader;
@@ -21,6 +22,7 @@ public class AuthService {
   private final WriterRepository writerRepo;
   private final PasswordEncoder passwordEncoder;
 
+  // ── REGISTER ───────────────────────────────────────────────
   public String register(RegisterRequest request) {
     String encoded = passwordEncoder.encode(request.getPassword());
 
@@ -41,7 +43,6 @@ public class AuthService {
         writerRepo.save(writer);
       }
       case "EDITOR" -> {
-        // ❌ Editors cannot self-register
         throw new RuntimeException("Editor accounts cannot be self-registered.");
       }
       default -> throw new RuntimeException("Invalid role: " + request.getRole());
@@ -49,20 +50,27 @@ public class AuthService {
     return "User registered successfully!";
   }
 
-  public String login(LoginRequest request) {
+  // ── LOGIN ──────────────────────────────────────────────────
+  public LoginResponse login(LoginRequest request) {
     String role = request.getRole().toUpperCase();
     String rawPassword = request.getPassword();
 
     return switch (role) {
+
       case "READER" -> {
         Reader r = readerRepo.findByEmail(request.getEmail())
             .orElseThrow(() -> new RuntimeException("Reader not found"));
         if (!passwordEncoder.matches(rawPassword, r.getPassword()))
           throw new RuntimeException("Invalid password");
-        yield "Login successful as READER";
+        yield new LoginResponse(
+            r.getReaderId(),
+            r.getName(),
+            r.getEmail(),
+            "READER",
+            "Login successful as READER");
       }
+
       case "EDITOR" -> {
-        // ✅ Only this specific email is allowed
         if (!request.getEmail().equals("malithdarshana2000@gmail.com")) {
           throw new RuntimeException("Access denied. Unauthorized editor.");
         }
@@ -70,15 +78,27 @@ public class AuthService {
             .orElseThrow(() -> new RuntimeException("Editor not found"));
         if (!passwordEncoder.matches(rawPassword, e.getPassword()))
           throw new RuntimeException("Invalid password");
-        yield "Login successful as EDITOR";
+        yield new LoginResponse(
+            e.getEditorId(),
+            e.getName(),
+            e.getEmail(),
+            "EDITOR",
+            "Login successful as EDITOR");
       }
+
       case "WRITER" -> {
         Writer w = writerRepo.findByEmail(request.getEmail())
             .orElseThrow(() -> new RuntimeException("Writer not found"));
         if (!passwordEncoder.matches(rawPassword, w.getPassword()))
           throw new RuntimeException("Invalid password");
-        yield "Login successful as WRITER";
+        yield new LoginResponse(
+            w.getWriterId(), // ← correct field
+            w.getName(),
+            w.getEmail(),
+            "WRITER",
+            "Login successful as WRITER");
       }
+
       default -> throw new RuntimeException("Invalid role");
     };
   }

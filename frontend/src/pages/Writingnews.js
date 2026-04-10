@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./WriterLogin.css";
 
-export default function WriterLogin() {
+export default function Writingnews() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -29,9 +29,9 @@ export default function WriterLogin() {
     setMessage("");
 
     const payload = {
-      email: formData.email,
+      email:    formData.email,
       password: formData.password,
-      role: "WRITER",
+      role:     "WRITER",
     };
 
     try {
@@ -40,8 +40,17 @@ export default function WriterLogin() {
         payload
       );
 
+      // ── SAVE WRITER DATA TO LOCALSTORAGE ──────────────────
+      localStorage.setItem("writerId",   response.data.writerId);
+      localStorage.setItem("writerName", response.data.name);
+      localStorage.setItem("writerEmail",response.data.email);
+      localStorage.setItem("role",       response.data.role);      // ← added
+
+      console.log("✅ Logged in writerId:", response.data.writerId);
+      console.log("✅ Logged in role:",     response.data.role);
+
       setIsError(false);
-      setMessage(response.data || "Login successful!");
+      setMessage("Login successful!");
 
       setTimeout(() => {
         navigate("/WriterDashboard");
@@ -49,11 +58,9 @@ export default function WriterLogin() {
 
     } catch (error) {
       setIsError(true);
-      if (error.response && error.response.data) {
-        setMessage(error.response.data);
-      } else {
-        setMessage("Login failed! Please check your credentials.");
-      }
+      const backendMessage = error.response?.data?.message || error.response?.data;
+      setMessage(backendMessage || "Login failed! Please check your credentials.");
+      console.error("Login error:", error.response);
     } finally {
       setLoading(false);
     }
@@ -83,7 +90,7 @@ export default function WriterLogin() {
           </div>
         </div>
 
-        {/* Right Panel - Login Form */}
+        {/* Right Panel */}
         <div className="writer-login-right">
           <div className="writer-login-form-wrapper">
 
