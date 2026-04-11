@@ -5,6 +5,16 @@ import "./Editordashboard.css";
 
 const API = "http://localhost:8090";
 
+// ── SORT: PENDING first → REJECTED middle → APPROVED last ─────
+const STATUS_ORDER = { PENDING: 0, REJECTED: 1, APPROVED: 2 };
+
+const sortNews = (arr) =>
+  [...arr].sort((a, b) => {
+    const orderA = STATUS_ORDER[a.status] ?? 99;
+    const orderB = STATUS_ORDER[b.status] ?? 99;
+    return orderA - orderB;
+  });
+
 export default function Editordashboard() {
   const [activeTab, setActiveTab] = useState("news");
   const [news, setNews]           = useState([]);
@@ -19,10 +29,10 @@ export default function Editordashboard() {
   };
 
   // ── FETCH ALL DATA ─────────────────────────────────────────
-  const fetchNews    = async () => {
+  const fetchNews = async () => {
     try {
       const r = await axios.get(`${API}/api/news/all`);
-      setNews(r.data);
+      setNews(sortNews(r.data)); // ← PENDING first, APPROVED last
     } catch {
       showToast("Failed to load news", "error");
     }
@@ -64,19 +74,15 @@ export default function Editordashboard() {
     }
   };
 
-  // ── DELETE NEWS (FIXED) ────────────────────────────────────
+  // ── DELETE NEWS ────────────────────────────────────────────
   const deleteNews = async (id) => {
-    // Guard: make sure we have a valid ID
     if (!id) {
       showToast("Invalid news ID — cannot delete", "error");
       return;
     }
-
-    // Confirm before deleting
     if (!window.confirm("Are you sure you want to delete this article?")) return;
-
     try {
-      console.log("Deleting news with ID:", id); // Debug — check browser console
+      console.log("Deleting news with ID:", id);
       await axios.delete(`${API}/api/news/delete/${id}`);
       showToast("News deleted!");
       fetchNews();
@@ -196,7 +202,12 @@ export default function Editordashboard() {
         {/* ── NEWS TAB ──────────────────────────────────────── */}
         {!loading && activeTab === "news" && (
           <div className="ed-section">
-            <h2 className="ed-section__title">All Articles</h2>
+            <h2 className="ed-section__title">
+              All Articles
+              <span style={{ fontSize: "13px", fontWeight: 400, color: "#888", marginLeft: "12px" }}>
+                ⏳ Pending → ✕ Rejected → ✓ Approved
+              </span>
+            </h2>
             {news.length === 0 ? (
               <div className="ed-empty">No articles found.</div>
             ) : (
@@ -217,11 +228,22 @@ export default function Editordashboard() {
                   </thead>
                   <tbody>
                     {news.map((n, i) => {
-                      // FIXED: safely resolve the ID — backend may return `id` or `newsId`
                       const newsId = n.newsId || n.id;
 
                       return (
-                        <tr key={newsId || i} className="ed-table__row">
+                        <tr
+                          key={newsId || i}
+                          className="ed-table__row"
+                          style={{
+                            opacity: n.status === "APPROVED" ? 0.72 : 1,
+                            background:
+                              n.status === "APPROVED"
+                                ? "rgba(34,197,94,0.05)"
+                                : n.status === "REJECTED"
+                                ? "rgba(239,68,68,0.05)"
+                                : "transparent",
+                          }}
+                        >
                           <td>{i + 1}</td>
                           <td className="ed-table__topic">{n.topic}</td>
                           <td>
@@ -260,7 +282,7 @@ export default function Editordashboard() {
                             </span>
                           </td>
 
-                          {/* Actions — FIXED: delete button works for ALL statuses */}
+                          {/* Actions */}
                           <td className="ed-table__actions">
                             {n.status === "PENDING" && (
                               <>
@@ -278,8 +300,6 @@ export default function Editordashboard() {
                                 </button>
                               </>
                             )}
-
-                            {/* Delete button — always visible, uses resolved newsId */}
                             <button
                               className="ed-btn ed-btn--delete"
                               onClick={() => deleteNews(newsId)}

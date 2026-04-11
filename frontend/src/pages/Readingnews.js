@@ -62,9 +62,7 @@ function SlideIllustration({ svgId, color1, color2 }) {
           </radialGradient>
           <filter id="slblur"><feGaussianBlur stdDeviation="8" /></filter>
         </defs>
-        {/* Glow backdrop */}
         <ellipse cx="170" cy="250" rx="130" ry="190" fill="url(#slglow)" filter="url(#slblur)" />
-        {/* Sri Lanka shape - simplified outline */}
         <path
           d="M170,60 L185,75 L195,95 L200,120 L205,150 L210,175 L215,200 L218,230
              L215,265 L210,295 L200,325 L190,355 L178,380 L168,400 L160,380
@@ -77,7 +75,6 @@ function SlideIllustration({ svgId, color1, color2 }) {
           opacity="0.9"
           className="rn-map-path"
         />
-        {/* Island fill */}
         <path
           d="M170,60 L185,75 L195,95 L200,120 L205,150 L210,175 L215,200 L218,230
              L215,265 L210,295 L200,325 L190,355 L178,380 L168,400 L160,380
@@ -86,7 +83,6 @@ function SlideIllustration({ svgId, color1, color2 }) {
           fill={color1}
           opacity="0.08"
         />
-        {/* City dots */}
         {[
           { x: 165, y: 195, name: "Colombo", main: true },
           { x: 195, y: 175, name: "Kandy" },
@@ -101,20 +97,17 @@ function SlideIllustration({ svgId, color1, color2 }) {
             <text x={c.x + 10} y={c.y + 4} fill={color1} fontSize="10" fontFamily="DM Sans,sans-serif" opacity="0.85">{c.name}</text>
           </g>
         ))}
-        {/* Grid lines */}
         {[80, 160, 240, 320, 400].map(y => (
           <line key={y} x1="60" y1={y} x2="280" y2={y} stroke={color1} strokeWidth="0.4" opacity="0.15" />
         ))}
         {[80, 140, 200, 260].map(x => (
           <line key={x} x1={x} y1="40" x2={x} y2="440" stroke={color1} strokeWidth="0.4" opacity="0.15" />
         ))}
-        {/* Wave effects */}
         <g opacity="0.3">
           {[0, 1, 2].map(i => (
             <ellipse key={i} cx="170" cy="440" rx={50 + i * 30} ry={12 + i * 6} fill="none" stroke={color1} strokeWidth="1" opacity={0.6 - i * 0.18} className="rn-wave" style={{ animationDelay: `${i * 0.5}s` }} />
           ))}
         </g>
-        {/* Label */}
         <text x="170" y="470" textAnchor="middle" fill={color1} fontSize="13" fontFamily="DM Sans,sans-serif" fontWeight="600" opacity="0.7" letterSpacing="3">SRI LANKA</text>
       </svg>
     );
@@ -131,33 +124,22 @@ function SlideIllustration({ svgId, color1, color2 }) {
           <filter id="worldblur"><feGaussianBlur stdDeviation="12" /></filter>
         </defs>
         <ellipse cx="250" cy="150" rx="200" ry="130" fill="url(#worldglow)" filter="url(#worldblur)" />
-        {/* Globe circle */}
         <circle cx="250" cy="150" r="110" fill="none" stroke={color1} strokeWidth="1.5" opacity="0.4" />
         <circle cx="250" cy="150" r="110" fill={color1} opacity="0.04" />
-        {/* Longitude lines */}
         {[-75, -45, -15, 15, 45, 75].map((offset, i) => (
           <ellipse key={i} cx="250" cy="150" rx={Math.abs(offset) * 1.1} ry="110" fill="none" stroke={color1} strokeWidth="0.6" opacity="0.2" />
         ))}
-        {/* Latitude lines */}
         {[-60, -30, 0, 30, 60].map((lat, i) => {
           const y = 150 + (lat / 90) * 110;
           const halfW = Math.sqrt(Math.max(0, 110 * 110 - (y - 150) ** 2));
           return <line key={i} x1={250 - halfW} y1={y} x2={250 + halfW} y2={y} stroke={color1} strokeWidth="0.6" opacity="0.2" />;
         })}
-        {/* Continent blobs - simplified */}
-        {/* North America */}
         <path d="M130,100 L155,90 L165,110 L160,140 L145,155 L130,145 L120,125 Z" fill={color1} opacity="0.25" stroke={color1} strokeWidth="1" />
-        {/* South America */}
         <path d="M155,165 L170,160 L178,180 L175,210 L165,225 L152,215 L148,195 Z" fill={color1} opacity="0.22" stroke={color1} strokeWidth="1" />
-        {/* Europe */}
         <path d="M230,95 L250,88 L265,100 L260,118 L245,122 L230,115 Z" fill={color1} opacity="0.25" stroke={color1} strokeWidth="1" />
-        {/* Africa */}
         <path d="M235,130 L260,125 L272,145 L270,175 L258,190 L240,182 L230,160 L232,140 Z" fill={color1} opacity="0.22" stroke={color1} strokeWidth="1" />
-        {/* Asia */}
         <path d="M265,85 L320,80 L345,100 L350,130 L330,148 L295,150 L270,140 L260,115 Z" fill={color1} opacity="0.25" stroke={color1} strokeWidth="1" />
-        {/* Australia */}
         <path d="M330,180 L360,175 L370,195 L360,210 L335,208 L320,195 Z" fill={color1} opacity="0.2" stroke={color1} strokeWidth="1" />
-        {/* City pings */}
         {[
           { x: 145, y: 118, city: "NY" },
           { x: 240, y: 105, city: "London" },
@@ -174,7 +156,6 @@ function SlideIllustration({ svgId, color1, color2 }) {
             <text x={c.x + 7} y={c.y - 5} fill={color1} fontSize="8.5" fontFamily="DM Sans,sans-serif" opacity="0.8">{c.city}</text>
           </g>
         ))}
-        {/* Connection arcs */}
         {[
           { x1: 145, y1: 118, x2: 240, y2: 105 },
           { x1: 240, y1: 105, x2: 305, y2: 110 },
@@ -198,7 +179,6 @@ function SlideIllustration({ svgId, color1, color2 }) {
     );
   }
 
-  /* Sports */
   return (
     <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" className="rn-slide-svg">
       <defs>
@@ -209,25 +189,19 @@ function SlideIllustration({ svgId, color1, color2 }) {
         <filter id="sportblur"><feGaussianBlur stdDeviation="10" /></filter>
       </defs>
       <ellipse cx="200" cy="200" rx="160" ry="160" fill="url(#sportglow)" filter="url(#sportblur)" />
-
-      {/* Cricket ball */}
       <circle cx="110" cy="130" r="48" fill="none" stroke={color1} strokeWidth="2" opacity="0.5" className="rn-sport-spin" />
       <circle cx="110" cy="130" r="48" fill={color1} opacity="0.07" />
       <path d="M110,82 Q130,100 130,130 Q130,160 110,178" fill="none" stroke={color1} strokeWidth="1.5" opacity="0.6" />
       <path d="M110,82 Q90,100 90,130 Q90,160 110,178" fill="none" stroke={color1} strokeWidth="1.5" opacity="0.6" />
       {[82, 92, 102, 158, 168, 178].map((y, i) => (
-        <line key={i} x1={i < 3 ? 107 : 107} y1={y} x2={i < 3 ? 113 : 113} y2={y + 5} stroke={color1} strokeWidth="1.2" opacity="0.7" transform={i < 3 ? `rotate(${(i - 1) * 12},110,130)` : `rotate(${(i - 4) * 12},110,130)`} />
+        <line key={i} x1={107} y1={y} x2={113} y2={y + 5} stroke={color1} strokeWidth="1.2" opacity="0.7" transform={i < 3 ? `rotate(${(i - 1) * 12},110,130)` : `rotate(${(i - 4) * 12},110,130)`} />
       ))}
       <text x="110" y="198" textAnchor="middle" fill={color1} fontSize="9" fontFamily="DM Sans,sans-serif" opacity="0.7" letterSpacing="2">CRICKET</text>
-
-      {/* Football */}
       <circle cx="290" cy="140" r="44" fill="none" stroke={color1} strokeWidth="2" opacity="0.5" />
       <circle cx="290" cy="140" r="44" fill={color1} opacity="0.07" />
       <polygon points="290,110 305,125 299,145 281,145 275,125" fill="none" stroke={color1} strokeWidth="1.4" opacity="0.7" />
       <path d="M290,110 L285,97 M305,125 L318,118 M299,145 L308,157 M281,145 L272,157 M275,125 L262,118" fill="none" stroke={color1} strokeWidth="1" opacity="0.5" />
       <text x="290" y="202" textAnchor="middle" fill={color1} fontSize="9" fontFamily="DM Sans,sans-serif" opacity="0.7" letterSpacing="2">FOOTBALL</text>
-
-      {/* Trophy */}
       <g transform="translate(160, 220)">
         <path d="M40,0 L60,0 L65,30 Q80,35 80,55 Q80,80 60,85 L60,95 L70,95 L70,110 L30,110 L30,95 L40,95 L40,85 Q20,80 20,55 Q20,35 35,30 Z" fill="none" stroke={color1} strokeWidth="2.2" opacity="0.8" />
         <path d="M40,0 L60,0 L65,30 Q80,35 80,55 Q80,80 60,85 L60,95 L70,95 L70,110 L30,110 L30,95 L40,95 L40,85 Q20,80 20,55 Q20,35 35,30 Z" fill={color1} opacity="0.1" />
@@ -236,14 +210,11 @@ function SlideIllustration({ svgId, color1, color2 }) {
         <circle cx="50" cy="50" r="12" fill={color1} opacity="0.2" />
         <path d="M50,40 L53,47 L61,47 L55,52 L57,60 L50,55 L43,60 L45,52 L39,47 L47,47 Z" fill={color1} opacity="0.8" />
       </g>
-
-      {/* Orbit dots */}
       {[0, 60, 120, 180, 240, 300].map((angle, i) => {
         const r = 155, cx = 200 + r * Math.cos((angle * Math.PI) / 180), cy = 200 + r * Math.sin((angle * Math.PI) / 180);
         return <circle key={i} cx={cx} cy={cy} r="3" fill={color1} opacity="0.4" className="rn-orbit-dot" style={{ animationDelay: `${i * 0.2}s` }} />;
       })}
       <circle cx="200" cy="200" r="155" fill="none" stroke={color1} strokeWidth="0.5" strokeDasharray="6 4" opacity="0.2" className="rn-sport-spin" style={{ animationDuration: "20s" }} />
-
       <text x="200" y="385" textAnchor="middle" fill={color1} fontSize="11" fontFamily="DM Sans,sans-serif" fontWeight="600" opacity="0.65" letterSpacing="4">SPORTS</text>
     </svg>
   );
@@ -270,20 +241,21 @@ function HeroSlider({ onSearch, search, setSearch }) {
     return () => clearInterval(timerRef.current);
   }, []);
 
-  const resetTimer = () => { clearInterval(timerRef.current); timerRef.current = setInterval(() => setCurrent(c => { setPrev(c); setDir(1); return (c + 1) % SLIDES.length; }), 6000); };
+  const resetTimer = () => {
+    clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => setCurrent(c => { setPrev(c); setDir(1); return (c + 1) % SLIDES.length; }), 6000);
+  };
 
   const slide = SLIDES[current];
 
   return (
     <div className="rn-slider" style={{ background: slide.bg }}>
-      {/* Background particles */}
       <div className="rn-slider__particles">
         {[...Array(20)].map((_, i) => (
           <div key={i} className="rn-particle" style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 5}s`, animationDuration: `${3 + Math.random() * 4}s`, background: slide.color1 }} />
         ))}
       </div>
 
-      {/* Slides */}
       {SLIDES.map((s, i) => (
         <div
           key={s.id}
@@ -291,7 +263,6 @@ function HeroSlider({ onSearch, search, setSearch }) {
           style={{ "--s-c1": s.color1, "--s-c2": s.color2 }}
         >
           <div className="rn-slide__inner">
-            {/* Left text */}
             <div className="rn-slide__text">
               <span className="rn-slide__eyebrow" style={{ color: s.color1, borderColor: s.color1 + "44", background: s.color1 + "18" }}>
                 {i === 0 ? "📍" : i === 1 ? "🌍" : "🏆"} {s.label}
@@ -302,7 +273,6 @@ function HeroSlider({ onSearch, search, setSearch }) {
               <p className="rn-slide__subtitle">{s.subtitle}</p>
               <p className="rn-slide__tagline">{s.tagline}</p>
             </div>
-            {/* Right illustration */}
             <div className="rn-slide__art">
               <SlideIllustration svgId={s.svgId} color1={s.color1} color2={s.color2} />
             </div>
@@ -310,7 +280,6 @@ function HeroSlider({ onSearch, search, setSearch }) {
         </div>
       ))}
 
-      {/* Search bar */}
       <div className="rn-slider__search-wrap">
         <div className="rn-search" style={{ maxWidth: 540, margin: "0 auto" }}>
           <span className="rn-search__icon">🔍</span>
@@ -325,11 +294,9 @@ function HeroSlider({ onSearch, search, setSearch }) {
         </div>
       </div>
 
-      {/* Controls */}
       <button className="rn-slider__arrow rn-slider__arrow--left" onClick={() => { prev_(); resetTimer(); }} aria-label="Previous">‹</button>
       <button className="rn-slider__arrow rn-slider__arrow--right" onClick={() => { next(); resetTimer(); }} aria-label="Next">›</button>
 
-      {/* Dots */}
       <div className="rn-slider__dots">
         {SLIDES.map((s, i) => (
           <button
@@ -342,13 +309,21 @@ function HeroSlider({ onSearch, search, setSearch }) {
         ))}
       </div>
 
-      {/* Progress bar */}
       <div className="rn-slider__progress">
         <div className="rn-slider__progress-fill" key={current} style={{ background: `linear-gradient(90deg, ${slide.color1}, ${slide.color2})` }} />
       </div>
     </div>
   );
 }
+
+/* ── SORT HELPER — latest first ──────────────────────────── */
+// Sorts by date + time descending so newest article appears first
+const sortByLatest = (arr) =>
+  [...arr].sort((a, b) => {
+    const dateA = new Date(`${a.date}T${a.time || "00:00:00"}`);
+    const dateB = new Date(`${b.date}T${b.time || "00:00:00"}`);
+    return dateB - dateA; // descending → newest first
+  });
 
 /* ── MAIN COMPONENT ──────────────────────────────────────── */
 export default function Readingnews() {
@@ -376,21 +351,27 @@ export default function Readingnews() {
     return id ? { id, name, email } : null;
   });
 
+  // ── FETCH & SORT NEWS ──────────────────────────────────────
   useEffect(() => {
-    const fetch = async () => {
+    const fetchNews = async () => {
       try {
         const res      = await axios.get(`${API}/api/news/all`);
         const approved = res.data.filter(n => n.status === "APPROVED");
-        setNews(approved);
-        setFiltered(approved);
-      } catch { console.error("Failed to fetch news"); }
-      finally  { setLoading(false); }
+        const sorted   = sortByLatest(approved); // ← FIXED: latest first
+        setNews(sorted);
+        setFiltered(sorted);
+      } catch {
+        console.error("Failed to fetch news");
+      } finally {
+        setLoading(false);
+      }
     };
-    fetch();
+    fetchNews();
   }, []);
 
+  // ── FILTER (keeps sort order intact) ──────────────────────
   useEffect(() => {
-    let r = news;
+    let r = news; // already sorted latest-first
     if (activeTab !== "ALL") r = r.filter(n => n.newsType === activeTab);
     if (search.trim())       r = r.filter(n =>
       n.topic?.toLowerCase().includes(search.toLowerCase()) ||
@@ -406,8 +387,11 @@ export default function Readingnews() {
       try {
         const res = await axios.get(`${API}/api/comments/news/${selected.newsId}`);
         setComments(res.data);
-      } catch { setComments([]); }
-      finally  { setCommentLoad(false); }
+      } catch {
+        setComments([]);
+      } finally {
+        setCommentLoad(false);
+      }
     };
     fetchComments();
     setCommentText("");
@@ -427,13 +411,15 @@ export default function Readingnews() {
       setCommentText("");
       const res = await axios.get(`${API}/api/comments/news/${selected.newsId}`);
       setComments(res.data);
-    } catch { alert("Failed to post comment. Please try again."); }
+    } catch {
+      alert("Failed to post comment. Please try again.");
+    }
   };
 
   const handleLogin = async () => {
     setAuthError(""); setAuthLoading(true);
     try {
-      const res = await axios.post(`${API}/api/auth/login`, { email: authForm.email, password: authForm.password, role: "READER" });
+      const res  = await axios.post(`${API}/api/auth/login`, { email: authForm.email, password: authForm.password, role: "READER" });
       const data = res.data;
       localStorage.setItem("readerId",    data.writerId);
       localStorage.setItem("readerName",  data.name);
@@ -443,7 +429,9 @@ export default function Readingnews() {
       setAuthForm({ name: "", email: "", password: "" });
     } catch (err) {
       setAuthError(err.response?.data?.message || "Login failed. Check your credentials.");
-    } finally { setAuthLoading(false); }
+    } finally {
+      setAuthLoading(false);
+    }
   };
 
   const handleSignup = async () => {
@@ -475,8 +463,8 @@ export default function Readingnews() {
     SPORTS:  news.filter(n => n.newsType === "SPORTS").length,
   };
 
-  const featured = filtered[0];
-  const rest     = filtered.slice(1);
+  const featured = filtered[0];        // newest article = featured
+  const rest     = filtered.slice(1);  // rest in descending order
 
   const fmtDate = (dt) => {
     if (!dt) return "";
@@ -559,7 +547,12 @@ export default function Readingnews() {
             {rest.length > 0 && (
               <div className="rn-grid">
                 {rest.map((n, i) => (
-                  <div key={n.newsId} className="rn-card" style={{ animationDelay: `${i * 0.07}s`, "--card-color": CAT_META[n.newsType]?.color || "#6366f1" }} onClick={() => openArticle(n)}>
+                  <div
+                    key={n.newsId}
+                    className="rn-card"
+                    style={{ animationDelay: `${i * 0.07}s`, "--card-color": CAT_META[n.newsType]?.color || "#6366f1" }}
+                    onClick={() => openArticle(n)}
+                  >
                     <div className="rn-card__img-wrap">
                       {n.filePath && isImage(n.fileType) ? (
                         <img src={`${API}/${n.filePath}`} alt={n.topic} className="rn-card__img" onError={e => { e.target.parentElement.innerHTML = `<div class="rn-card__imgfallback">${CAT_META[n.newsType]?.emoji || "📰"}</div>`; }} />
@@ -595,7 +588,14 @@ export default function Readingnews() {
             )}
             <div className="rn-modal__body">
               <div className="rn-modal__meta">
-                <span className="rn-modal__badge" style={{ background: CAT_META[selected.newsType]?.color + "22", color: CAT_META[selected.newsType]?.color, border: `1px solid ${CAT_META[selected.newsType]?.color}44` }}>
+                <span
+                  className="rn-modal__badge"
+                  style={{
+                    background: CAT_META[selected.newsType]?.color + "22",
+                    color: CAT_META[selected.newsType]?.color,
+                    border: `1px solid ${CAT_META[selected.newsType]?.color}44`
+                  }}
+                >
                   {CAT_META[selected.newsType]?.emoji} {selected.newsType}
                 </span>
                 <span className="rn-modal__date">{selected.date} · {selected.time?.slice(0, 5)}</span>
@@ -614,7 +614,13 @@ export default function Readingnews() {
                   <div className="rn-comment-form">
                     <div className="rn-comment-form__avatar">{reader.name?.charAt(0).toUpperCase()}</div>
                     <div className="rn-comment-form__right">
-                      <textarea className="rn-comment-form__input" placeholder={`Comment as ${reader.name}...`} value={commentText} onChange={e => setCommentText(e.target.value)} rows={3} />
+                      <textarea
+                        className="rn-comment-form__input"
+                        placeholder={`Comment as ${reader.name}...`}
+                        value={commentText}
+                        onChange={e => setCommentText(e.target.value)}
+                        rows={3}
+                      />
                       <div className="rn-comment-form__actions">
                         <span className="rn-comment-form__user">👤 {reader.name}</span>
                         <button className="rn-comment-form__btn" onClick={submitComment} disabled={!commentText.trim()}>Post Comment</button>
@@ -684,7 +690,11 @@ export default function Readingnews() {
                   <label>Password</label>
                   <input type="password" placeholder="••••••••" value={authForm.password} onChange={e => setAuthForm({ ...authForm, password: e.target.value })} />
                 </div>
-                <button className="rn-auth__submit" onClick={authMode === "login" ? handleLogin : handleSignup} disabled={authLoading}>
+                <button
+                  className="rn-auth__submit"
+                  onClick={authMode === "login" ? handleLogin : handleSignup}
+                  disabled={authLoading}
+                >
                   {authLoading ? "Please wait..." : authMode === "login" ? "Sign In" : "Create Account"}
                 </button>
               </div>
