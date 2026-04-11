@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface ForeignNewsRepository extends JpaRepository<ForeignNews, Long> {
   Optional<ForeignNews> findByNews_NewsId(Long newsId);
+
+  void deleteByNewsNewsId(Long newsId);
 }

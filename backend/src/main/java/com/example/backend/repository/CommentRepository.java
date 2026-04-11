@@ -8,4 +8,5 @@ import com.example.backend.model.ReaderComment;
 
 public interface CommentRepository extends JpaRepository<ReaderComment, Long> {
   List<ReaderComment> findByNews_NewsId(Long newsId);
+
 }

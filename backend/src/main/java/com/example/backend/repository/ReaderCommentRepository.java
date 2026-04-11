@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ReaderCommentRepository extends JpaRepository<ReaderComment, Long> {
   List<ReaderComment> findByNews_NewsIdOrderByCommentedAtDesc(Long newsId);
+
+  void deleteByNewsNewsId(Long newsId);
 }

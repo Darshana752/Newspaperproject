@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.model.*;
 import com.example.backend.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,7 @@ public class NewsService {
   private final SportsNewsRepository sportsNewsRepo;
   private final EditorRepository editorRepo;
   private final WriterRepository writerRepo;
+  private final ReaderCommentRepository readerCommentRepo; // ← ADD THIS
 
   private final String UPLOAD_DIR = "uploads/";
 
@@ -190,8 +192,18 @@ public class NewsService {
     return saved;
   }
 
-  // ── DELETE NEWS ────────────────────────────────────────────
+  // ── DELETE NEWS (FIXED) ────────────────────────────────────
+  @Transactional
   public void deleteNews(Long id) {
+    // Step 1: Delete all comments linked to this news
+    readerCommentRepo.deleteByNewsNewsId(id);
+
+    // Step 2: Delete subtype record (local / foreign / sports)
+    localNewsRepo.deleteByNewsNewsId(id);
+    foreignNewsRepo.deleteByNewsNewsId(id);
+    sportsNewsRepo.deleteByNewsNewsId(id);
+
+    // Step 3: Now safely delete the news itself
     newsRepo.deleteById(id);
   }
 }

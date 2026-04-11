@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface SportsNewsRepository extends JpaRepository<SportsNews, Long> {
   Optional<SportsNews> findByNews_NewsId(Long newsId);
+
+  void deleteByNewsNewsId(Long newsId);
 }

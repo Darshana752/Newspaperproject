@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LocalNewsRepository extends JpaRepository<LocalNews, Long> {
   Optional<LocalNews> findByNews_NewsId(Long newsId);
+
+  void deleteByNewsNewsId(Long newsId);
 }

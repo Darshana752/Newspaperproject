@@ -19,13 +19,38 @@ export default function Editordashboard() {
   };
 
   // ── FETCH ALL DATA ─────────────────────────────────────────
-  const fetchNews    = async () => { try { const r = await axios.get(`${API}/api/news/all`);    setNews(r.data);    } catch { showToast("Failed to load news", "error"); } };
-  const fetchWriters = async () => { try { const r = await axios.get(`${API}/api/auth/writers`); setWriters(r.data); } catch { showToast("Failed to load writers", "error"); } };
-  const fetchReaders = async () => { try { const r = await axios.get(`${API}/api/auth/readers`); setReaders(r.data); } catch { showToast("Failed to load readers", "error"); } };
+  const fetchNews    = async () => {
+    try {
+      const r = await axios.get(`${API}/api/news/all`);
+      setNews(r.data);
+    } catch {
+      showToast("Failed to load news", "error");
+    }
+  };
+
+  const fetchWriters = async () => {
+    try {
+      const r = await axios.get(`${API}/api/auth/writers`);
+      setWriters(r.data);
+    } catch {
+      showToast("Failed to load writers", "error");
+    }
+  };
+
+  const fetchReaders = async () => {
+    try {
+      const r = await axios.get(`${API}/api/auth/readers`);
+      setReaders(r.data);
+    } catch {
+      showToast("Failed to load readers", "error");
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
-    Promise.all([fetchNews(), fetchWriters(), fetchReaders()]).finally(() => setLoading(false));
+    Promise.all([fetchNews(), fetchWriters(), fetchReaders()]).finally(() =>
+      setLoading(false)
+    );
   }, []);
 
   // ── APPROVE / REJECT NEWS ──────────────────────────────────
@@ -34,13 +59,64 @@ export default function Editordashboard() {
       await axios.put(`${API}/api/news/update/${id}`, null, { params: { status } });
       showToast(`News ${status.toLowerCase()} successfully!`);
       fetchNews();
-    } catch { showToast("Failed to update news", "error"); }
+    } catch {
+      showToast("Failed to update news", "error");
+    }
   };
 
-  // ── DELETE ─────────────────────────────────────────────────
-  const deleteNews   = async (id) => { try { await axios.delete(`${API}/api/news/delete/${id}`);          showToast("News deleted!");   fetchNews();    } catch { showToast("Delete failed", "error"); } };
-  const deleteWriter = async (id) => { try { await axios.delete(`${API}/api/auth/writers/${id}`);         showToast("Writer deleted!"); fetchWriters(); } catch { showToast("Delete failed", "error"); } };
-  const deleteReader = async (id) => { try { await axios.delete(`${API}/api/auth/readers/${id}`);         showToast("Reader deleted!"); fetchReaders(); } catch { showToast("Delete failed", "error"); } };
+  // ── DELETE NEWS (FIXED) ────────────────────────────────────
+  const deleteNews = async (id) => {
+    // Guard: make sure we have a valid ID
+    if (!id) {
+      showToast("Invalid news ID — cannot delete", "error");
+      return;
+    }
+
+    // Confirm before deleting
+    if (!window.confirm("Are you sure you want to delete this article?")) return;
+
+    try {
+      console.log("Deleting news with ID:", id); // Debug — check browser console
+      await axios.delete(`${API}/api/news/delete/${id}`);
+      showToast("News deleted!");
+      fetchNews();
+    } catch (err) {
+      console.error("Delete error:", err?.response || err);
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data ||
+        "Delete failed — check console for details";
+      showToast(msg, "error");
+    }
+  };
+
+  // ── DELETE WRITER ──────────────────────────────────────────
+  const deleteWriter = async (id) => {
+    if (!id) { showToast("Invalid writer ID", "error"); return; }
+    if (!window.confirm("Remove this writer?")) return;
+    try {
+      await axios.delete(`${API}/api/auth/writers/${id}`);
+      showToast("Writer deleted!");
+      fetchWriters();
+    } catch (err) {
+      console.error("Delete writer error:", err?.response || err);
+      showToast(err?.response?.data?.message || "Delete failed", "error");
+    }
+  };
+
+  // ── DELETE READER ──────────────────────────────────────────
+  const deleteReader = async (id) => {
+    if (!id) { showToast("Invalid reader ID", "error"); return; }
+    if (!window.confirm("Remove this reader?")) return;
+    try {
+      await axios.delete(`${API}/api/auth/readers/${id}`);
+      showToast("Reader deleted!");
+      fetchReaders();
+    } catch (err) {
+      console.error("Delete reader error:", err?.response || err);
+      showToast(err?.response?.data?.message || "Delete failed", "error");
+    }
+  };
 
   const pendingCount  = news.filter(n => n.status === "PENDING").length;
   const approvedCount = news.filter(n => n.status === "APPROVED").length;
@@ -51,7 +127,9 @@ export default function Editordashboard() {
       <Navigationbar />
 
       {/* TOAST */}
-      {toast && <div className={`ed-toast ed-toast--${toast.type}`}>{toast.msg}</div>}
+      {toast && (
+        <div className={`ed-toast ed-toast--${toast.type}`}>{toast.msg}</div>
+      )}
 
       <div className="ed-hero">
         <div className="ed-hero__bg" />
@@ -109,7 +187,11 @@ export default function Editordashboard() {
       </div>
 
       <div className="ed-body">
-        {loading && <div className="ed-loader"><div className="ed-spinner" /></div>}
+        {loading && (
+          <div className="ed-loader">
+            <div className="ed-spinner" />
+          </div>
+        )}
 
         {/* ── NEWS TAB ──────────────────────────────────────── */}
         {!loading && activeTab === "news" && (
@@ -124,78 +206,91 @@ export default function Editordashboard() {
                     <tr>
                       <th>#</th>
                       <th>Topic</th>
-                      
                       <th>Type</th>
                       <th>Writer</th>
                       <th>Description</th>
                       <th>Date</th>
                       <th>Filename</th>
-                     
                       <th>Status</th>
                       <th>Actions</th>
-                       
-
                     </tr>
                   </thead>
                   <tbody>
-                    {news.map((n, i) => (
-                      <tr key={n.newsId} className="ed-table__row">
-                        <td>{i + 1}</td>
-                        <td className="ed-table__topic">{n.topic}</td>
-                        <td><span className={`ed-badge ed-badge--type`}>{n.newsType}</span></td>
-                        <td>{n.writer?.name || "—"}</td>
-                        <td>{n.description}</td>
-                        <td>{n.date}</td>
+                    {news.map((n, i) => {
+                      // FIXED: safely resolve the ID — backend may return `id` or `newsId`
+                      const newsId = n.newsId || n.id;
 
-                        <td>
-  {n.filePath ? (
-    <div>
-      {/* Show file name */}
-      <div style={{ fontSize: "12px", marginBottom: "5px" }}>
-        {n.fileName}
-      </div>
+                      return (
+                        <tr key={newsId || i} className="ed-table__row">
+                          <td>{i + 1}</td>
+                          <td className="ed-table__topic">{n.topic}</td>
+                          <td>
+                            <span className="ed-badge ed-badge--type">{n.newsType}</span>
+                          </td>
+                          <td>{n.writer?.name || "—"}</td>
+                          <td>{n.description}</td>
+                          <td>{n.date}</td>
 
-      {/* Download button */}
-      <a
-        href={`http://localhost:8090/${n.filePath}`}
-        download
-        target="_blank"
-        rel="noopener noreferrer"
-        className="ed-btn ed-btn--view"
-      >
-        ⬇ Click Here
-      </a>
-    </div>
-  ) : (
-    "No File"
-  )}
-</td>
-  
+                          {/* File column */}
+                          <td>
+                            {n.filePath ? (
+                              <div>
+                                <div style={{ fontSize: "12px", marginBottom: "5px" }}>
+                                  {n.fileName}
+                                </div>
+                                <a
+                                  href={`http://localhost:8090/${n.filePath}`}
+                                  download
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="ed-btn ed-btn--view"
+                                >
+                                  ⬇ Click Here
+                                </a>
+                              </div>
+                            ) : (
+                              "No File"
+                            )}
+                          </td>
 
+                          {/* Status badge */}
+                          <td>
+                            <span className={`ed-badge ed-badge--${n.status?.toLowerCase()}`}>
+                              {n.status}
+                            </span>
+                          </td>
 
+                          {/* Actions — FIXED: delete button works for ALL statuses */}
+                          <td className="ed-table__actions">
+                            {n.status === "PENDING" && (
+                              <>
+                                <button
+                                  className="ed-btn ed-btn--approve"
+                                  onClick={() => updateNewsStatus(newsId, "APPROVED")}
+                                >
+                                  ✓ Approve
+                                </button>
+                                <button
+                                  className="ed-btn ed-btn--reject"
+                                  onClick={() => updateNewsStatus(newsId, "REJECTED")}
+                                >
+                                  ✕ Reject
+                                </button>
+                              </>
+                            )}
 
-
-
-
-
-                        
-
-                        <td>
-                          <span className={`ed-badge ed-badge--${n.status?.toLowerCase()}`}>
-                            {n.status}
-                          </span>
-                        </td>
-                        <td className="ed-table__actions">
-                          {n.status === "PENDING" && (
-                            <>
-                              <button className="ed-btn ed-btn--approve" onClick={() => updateNewsStatus(n.newsId, "APPROVED")}>✓ Approve</button>
-                              <button className="ed-btn ed-btn--reject"  onClick={() => updateNewsStatus(n.newsId, "REJECTED")}>✕ Reject</button>
-                            </>
-                          )}
-                          <button className="ed-btn ed-btn--delete" onClick={() => deleteNews(n.newsId)}>🗑</button>
-                        </td>
-                      </tr>
-                    ))}
+                            {/* Delete button — always visible, uses resolved newsId */}
+                            <button
+                              className="ed-btn ed-btn--delete"
+                              onClick={() => deleteNews(newsId)}
+                              title={`Delete article (ID: ${newsId})`}
+                            >
+                              🗑 Delete
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -211,17 +306,31 @@ export default function Editordashboard() {
               <div className="ed-empty">No writers found.</div>
             ) : (
               <div className="ed-cards">
-                {writers.map((w, i) => (
-                  <div key={w.writerId} className="ed-card" style={{ animationDelay: `${i * 0.07}s` }}>
-                    <div className="ed-card__avatar">{w.name?.charAt(0).toUpperCase()}</div>
-                    <div className="ed-card__info">
-                      <h3>{w.name}</h3>
-                      <p>📧 {w.email}</p>
-                      <p>🪪 {w.nic || "—"}</p>
+                {writers.map((w, i) => {
+                  const writerId = w.writerId || w.id;
+                  return (
+                    <div
+                      key={writerId || i}
+                      className="ed-card"
+                      style={{ animationDelay: `${i * 0.07}s` }}
+                    >
+                      <div className="ed-card__avatar">
+                        {w.name?.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="ed-card__info">
+                        <h3>{w.name}</h3>
+                        <p>📧 {w.email}</p>
+                        <p>🪪 {w.nic || "—"}</p>
+                      </div>
+                      <button
+                        className="ed-btn ed-btn--delete"
+                        onClick={() => deleteWriter(writerId)}
+                      >
+                        🗑 Remove
+                      </button>
                     </div>
-                    <button className="ed-btn ed-btn--delete" onClick={() => deleteWriter(w.writerId)}>🗑 Remove</button>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
@@ -235,16 +344,30 @@ export default function Editordashboard() {
               <div className="ed-empty">No readers found.</div>
             ) : (
               <div className="ed-cards">
-                {readers.map((r, i) => (
-                  <div key={r.readerId} className="ed-card" style={{ animationDelay: `${i * 0.07}s` }}>
-                    <div className="ed-card__avatar ed-card__avatar--reader">{r.name?.charAt(0).toUpperCase()}</div>
-                    <div className="ed-card__info">
-                      <h3>{r.name}</h3>
-                      <p>📧 {r.email}</p>
+                {readers.map((r, i) => {
+                  const readerId = r.readerId || r.id;
+                  return (
+                    <div
+                      key={readerId || i}
+                      className="ed-card"
+                      style={{ animationDelay: `${i * 0.07}s` }}
+                    >
+                      <div className="ed-card__avatar ed-card__avatar--reader">
+                        {r.name?.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="ed-card__info">
+                        <h3>{r.name}</h3>
+                        <p>📧 {r.email}</p>
+                      </div>
+                      <button
+                        className="ed-btn ed-btn--delete"
+                        onClick={() => deleteReader(readerId)}
+                      >
+                        🗑 Remove
+                      </button>
                     </div>
-                    <button className="ed-btn ed-btn--delete" onClick={() => deleteReader(r.readerId)}>🗑 Remove</button>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
